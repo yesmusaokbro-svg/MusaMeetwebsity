@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="minWall" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FAFAFA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5F5F5;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Clean white wall -->
+  <rect width="1920" height="1080" fill="url(#minWall)"/>
+  
+  <!-- Simple geometric art -->
+  <circle cx="500" cy="300" r="120" fill="none" stroke="#FF6F00" stroke-width="8"/>
+  <rect x="1300" y="200" width="250" height="250" fill="none" stroke="#1976D2" stroke-width="8"/>
+  
+  <!-- Minimalist desk edge -->
+  <rect x="0" y="900" width="1920" height="180" fill="#EEEEEE"/>
+  <rect x="200" y="880" width="1520" height="20" fill="#E0E0E0"/>
+  
+  <!-- Simple plant -->
+  <ellipse cx="1700" cy="800" rx="60" ry="80" fill="#4CAF50" opacity="0.7"/>
+  <rect x="1680" y="850" width="40" height="50" fill="#757575"/>
+  
+  <!-- Laptop suggestion -->
+  <rect x="700" y="870" width="200" height="10" fill="#9E9E9E" opacity="0.5"/>
+  
+  <text x="960" y="950" font-family="Arial, sans-serif" font-size="60" fill="#BDBDBD" opacity="0.3" text-anchor="middle" font-weight="300">MINIMALIST WORKSPACE</text>
+</svg>

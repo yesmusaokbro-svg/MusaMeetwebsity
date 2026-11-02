@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="tropSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00BCD4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4DD0E1;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="sun">
+      <stop offset="0%" style="stop-color:#FFEB3B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FDD835;stop-opacity:0.5" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#tropSky)"/>
+  
+  <!-- Sun with glow -->
+  <circle cx="400" cy="200" r="100" fill="url(#sun)"/>
+  
+  <!-- Jungle background -->
+  <rect y="400" width="1920" height="680" fill="#1B5E20" opacity="0.8"/>
+  
+  <!-- Large tropical leaves -->
+  <ellipse cx="300" cy="300" rx="200" ry="300" fill="#2E7D32" transform="rotate(-30 300 300)"/>
+  <ellipse cx="1650" cy="350" rx="220" ry="320" fill="#1B5E20" transform="rotate(25 1650 350)"/>
+  <ellipse cx="150" cy="600" rx="180" ry="280" fill="#388E3C" transform="rotate(-45 150 600)"/>
+  <ellipse cx="1800" cy="650" rx="190" ry="290" fill="#2E7D32" transform="rotate(40 1800 650)"/>
+  
+  <!-- Palm trees -->
+  <g>
+    <rect x="800" y="300" width="50" height="500" fill="#6D4C41"/>
+    <ellipse cx="825" cy="250" rx="120" ry="100" fill="#2E7D32" transform="rotate(-30 825 250)"/>
+    <ellipse cx="825" cy="250" rx="120" ry="100" fill="#388E3C" transform="rotate(30 825 250)"/>
+    <ellipse cx="825" cy="250" rx="100" ry="90" fill="#43A047" transform="rotate(0 825 250)"/>
+  </g>
+  
+  <g>
+    <rect x="1200" y="400" width="45" height="450" fill="#6D4C41"/>
+    <ellipse cx="1222" cy="360" rx="110" ry="95" fill="#2E7D32" transform="rotate(-25 1222 360)"/>
+    <ellipse cx="1222" cy="360" rx="110" ry="95" fill="#388E3C" transform="rotate(25 1222 360)"/>
+  </g>
+  
+  <!-- Colorful flowers -->
+  <circle cx="500" cy="850" r="30" fill="#E91E63" opacity="0.8"/>
+  <circle cx="650" cy="900" r="25" fill="#FF5722" opacity="0.8"/>
+  <circle cx="1300" cy="870" r="28" fill="#9C27B0" opacity="0.8"/>
+  <circle cx="1500" cy="920" r="32" fill="#FF6F00" opacity="0.8"/>
+  
+  <!-- Ground vegetation -->
+  <rect y="950" width="1920" height="130" fill="#1B5E20"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="70" fill="#004D40" opacity="0.2" text-anchor="middle" font-weight="bold">TROPICAL PARADISE</text>
+</svg>

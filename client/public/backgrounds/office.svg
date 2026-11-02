@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="officeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2C5364;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#203A43;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#officeGrad)"/>
+  <rect x="100" y="100" width="400" height="600" fill="#1a2634" opacity="0.8"/>
+  <rect x="550" y="150" width="350" height="500" fill="#1a2634" opacity="0.7"/>
+  <rect x="950" y="200" width="400" height="550" fill="#1a2634" opacity="0.6"/>
+  <rect x="1400" y="100" width="400" height="600" fill="#1a2634" opacity="0.8"/>
+  <circle cx="300" cy="200" r="30" fill="#f4d03f" opacity="0.3"/>
+  <text x="960" y="540" font-family="Arial, sans-serif" font-size="120" fill="#ffffff" opacity="0.1" text-anchor="middle">OFFICE</text>
+</svg>

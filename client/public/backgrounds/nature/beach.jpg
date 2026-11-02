@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="oceanSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0288D1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4FC3F7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="ocean" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#006064;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00838F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1920" height="550" fill="url(#oceanSky)"/>
+  
+  <!-- Sun -->
+  <circle cx="1600" cy="150" r="90" fill="#FDD835" opacity="0.9"/>
+  
+  <!-- Ocean -->
+  <rect y="550" width="1920" height="350" fill="url(#ocean)"/>
+  
+  <!-- Waves -->
+  <path d="M 0 600 Q 240 580 480 600 T 960 600 T 1440 600 T 1920 600" fill="none" stroke="#4DD0E1" stroke-width="4" opacity="0.7"/>
+  <path d="M 0 650 Q 240 630 480 650 T 960 650 T 1440 650 T 1920 650" fill="none" stroke="#80DEEA" stroke-width="3" opacity="0.5"/>
+  
+  <!-- Beach -->
+  <ellipse cx="960" cy="900" rx="1000" ry="100" fill="#F4E1C1"/>
+  <rect y="900" width="1920" height="180" fill="#E0C9A6"/>
+  
+  <!-- Palm tree -->
+  <rect x="200" y="600" width="40" height="300" fill="#6D4C41"/>
+  <ellipse cx="220" cy="550" rx="100" ry="80" fill="#2E7D32"/>
+  <ellipse cx="170" cy="570" rx="90" ry="70" fill="#388E3C"/>
+  <ellipse cx="270" cy="570" rx="90" ry="70" fill="#388E3C"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="70" fill="#8D6E63" opacity="0.2" text-anchor="middle" font-weight="bold">BEACH & OCEAN</text>
+</svg>

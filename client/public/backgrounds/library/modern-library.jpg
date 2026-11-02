@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="libCeiling" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7D6B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B5D4B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Ceiling with geometric pattern -->
+  <rect width="1920" height="400" fill="url(#libCeiling)"/>
+  <polygon points="400,0 500,150 300,150" fill="#A68B6A" opacity="0.6"/>
+  <polygon points="700,0 800,150 600,150" fill="#A68B6A" opacity="0.6"/>
+  <polygon points="1000,0 1100,150 900,150" fill="#A68B6A" opacity="0.6"/>
+  <polygon points="1300,0 1400,150 1200,150" fill="#A68B6A" opacity="0.6"/>
+  <polygon points="1600,0 1700,150 1500,150" fill="#A68B6A" opacity="0.6"/>
+  
+  <!-- Wall -->
+  <rect y="400" width="1920" height="680" fill="#4A3F35"/>
+  
+  <!-- Bookshelves -->
+  <rect x="100" y="450" width="800" height="600" fill="#3E2723"/>
+  <rect x="1020" y="450" width="800" height="600" fill="#3E2723"/>
+  
+  <!-- Shelf dividers -->
+  <line x1="100" y1="600" x2="900" y2="600" stroke="#2C1810" stroke-width="12"/>
+  <line x1="100" y1="750" x2="900" y2="750" stroke="#2C1810" stroke-width="12"/>
+  <line x1="100" y1="900" x2="900" y2="900" stroke="#2C1810" stroke-width="12"/>
+  
+  <line x1="1020" y1="600" x2="1820" y2="600" stroke="#2C1810" stroke-width="12"/>
+  <line x1="1020" y1="750" x2="1820" y2="750" stroke="#2C1810" stroke-width="12"/>
+  <line x1="1020" y1="900" x2="1820" y2="900" stroke="#2C1810" stroke-width="12"/>
+  
+  <!-- Books (left shelf) -->
+  <g>
+    <rect x="120" y="470" width="35" height="120" fill="#C62828"/>
+    <rect x="165" y="470" width="28" height="120" fill="#1565C0"/>
+    <rect x="203" y="470" width="32" height="120" fill="#2E7D32"/>
+    <rect x="245" y="470" width="30" height="120" fill="#F57C00"/>
+    <rect x="285" y="470" width="35" height="120" fill="#6A1B9A"/>
+    <rect x="330" y="470" width="28" height="120" fill="#00838F"/>
+    <rect x="368" y="470" width="32" height="120" fill="#AD1457"/>
+    <rect x="410" y="470" width="30" height="120" fill="#558B2F"/>
+  </g>
+  
+  <!-- Books (right shelf) -->
+  <g>
+    <rect x="1040" y="470" width="35" height="120" fill="#D32F2F"/>
+    <rect x="1085" y="470" width="28" height="120" fill="#1976D2"/>
+    <rect x="1123" y="470" width="32" height="120" fill="#388E3C"/>
+    <rect x="1165" y="470" width="30" height="120" fill="#F57C00"/>
+    <rect x="1205" y="470" width="35" height="120" fill="#7B1FA2"/>
+    <rect x="1250" y="470" width="28" height="120" fill="#0097A7"/>
+  </g>
+  
+  <!-- Warm lighting -->
+  <circle cx="500" cy="300" r="40" fill="#FDD835" opacity="0.6"/>
+  <circle cx="1400" cy="300" r="40" fill="#FDD835" opacity="0.6"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="70" fill="#8D6E63" opacity="0.2" text-anchor="middle" font-weight="bold">MODERN LIBRARY</text>
+</svg>

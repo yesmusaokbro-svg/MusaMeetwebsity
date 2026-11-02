@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="cozyWall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#BCAAA4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A1887F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Warm wall -->
+  <rect width="1920" height="1080" fill="url(#cozyWall)"/>
+  
+  <!-- Bookshelf -->
+  <rect x="100" y="250" width="450" height="650" fill="#5D4037"/>
+  <line x1="100" y1="450" x2="550" y2="450" stroke="#4E342E" stroke-width="10"/>
+  <line x1="100" y1="650" x2="550" y2="650" stroke="#4E342E" stroke-width="10"/>
+  
+  <!-- Books -->
+  <rect x="120" y="270" width="30" height="160" fill="#C62828"/>
+  <rect x="160" y="270" width="25" height="160" fill="#1565C0"/>
+  <rect x="195" y="270" width="35" height="160" fill="#2E7D32"/>
+  
+  <!-- Desk -->
+  <rect x="700" y="850" width="900" height="230" fill="#6D4C41"/>
+  <ellipse cx="1150" cy="850" rx="450" ry="60" fill="#8D6E63"/>
+  
+  <!-- Chair -->
+  <ellipse cx="1150" cy="750" rx="150" ry="60" fill="#5D4037" opacity="0.7"/>
+  
+  <!-- Lamp on desk -->
+  <rect x="1450" y="700" width="20" height="150" fill="#424242"/>
+  <polygon points="1370,700 1550,700 1500,600" fill="#FFC107" opacity="0.7"/>
+  <circle cx="1460" cy="650" r="100" fill="#FDD835" opacity="0.3"/>
+  
+  <!-- Window with curtain -->
+  <rect x="1600" y="200" width="250" height="500" fill="#81D4FA" opacity="0.5"/>
+  <path d="M 1600 200 Q 1650 350 1600 500" fill="#8D6E63" opacity="0.6"/>
+  <path d="M 1850 200 Q 1800 350 1850 500" fill="#8D6E63" opacity="0.6"/>
+  
+  <text x="960" y="1000" font-family="Georgia, serif" font-size="55" fill="#6D4C41" opacity="0.2" text-anchor="middle" font-style="italic">Cozy Home Office</text>
+</svg>

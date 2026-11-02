@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="studyWall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8D6E63;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6D4C41;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Wall -->
+  <rect width="1920" height="1080" fill="url(#studyWall)"/>
+  
+  <!-- Bookshelf on left -->
+  <rect x="100" y="200" width="400" height="700" fill="#5D4037"/>
+  <line x1="100" y1="400" x2="500" y2="400" stroke="#4E342E" stroke-width="10"/>
+  <line x1="100" y1="600" x2="500" y2="600" stroke="#4E342E" stroke-width="10"/>
+  <line x1="100" y1="800" x2="500" y2="800" stroke="#4E342E" stroke-width="10"/>
+  
+  <!-- Books -->
+  <rect x="120" y="220" width="30" height="160" fill="#D32F2F"/>
+  <rect x="160" y="220" width="25" height="160" fill="#1976D2"/>
+  <rect x="195" y="220" width="35" height="160" fill="#388E3C"/>
+  <rect x="240" y="220" width="28" height="160" fill="#F57C00"/>
+  
+  <!-- Window with light -->
+  <rect x="1300" y="150" width="500" height="600" fill="#90CAF9" opacity="0.7"/>
+  <rect x="1300" y="150" width="500" height="600" fill="url(#studyWall)" opacity="0.2"/>
+  <line x1="1550" y1="150" x2="1550" y2="750" stroke="#607D8B" stroke-width="15"/>
+  <line x1="1300" y1="450" x2="1800" y2="450" stroke="#607D8B" stroke-width="15"/>
+  
+  <!-- Desk -->
+  <ellipse cx="800" cy="880" rx="600" ry="50" fill="#8D6E63"/>
+  <rect x="200" y="880" width="1200" height="200" fill="#6D4C41"/>
+  
+  <!-- Lamp on desk -->
+  <rect x="1100" y="750" width="20" height="130" fill="#424242"/>
+  <polygon points="1000,750 1200,750 1150,650" fill="#FDD835" opacity="0.8"/>
+  <circle cx="1110" cy="700" r="80" fill="#FDD835" opacity="0.4"/>
+  
+  <!-- Chair -->
+  <ellipse cx="800" cy="820" rx="120" ry="50" fill="#424242" opacity="0.7"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="60" fill="#A1887F" opacity="0.3" text-anchor="middle">STUDY ROOM</text>
+</svg>

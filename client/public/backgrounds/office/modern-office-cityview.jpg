@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B7355;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6B5344;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky through windows -->
+  <rect width="1920" height="1080" fill="url(#skyGrad)"/>
+  
+  <!-- Window frames -->
+  <rect x="0" y="0" width="240" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="240" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="440" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="480" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="680" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="720" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="920" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="960" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="1160" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="1200" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="1400" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="1440" y="0" width="200" height="1080" fill="url(#skyGrad)"/>
+  <rect x="1640" y="0" width="40" height="1080" fill="#2C3E50" opacity="0.9"/>
+  <rect x="1680" y="0" width="240" height="1080" fill="#2C3E50" opacity="0.9"/>
+  
+  <!-- Cityscape through windows -->
+  <g opacity="0.6">
+    <rect x="280" y="500" width="60" height="300" fill="#34495E"/>
+    <rect x="360" y="400" width="50" height="400" fill="#2C3E50"/>
+    <rect x="520" y="450" width="70" height="350" fill="#34495E"/>
+    <rect x="610" y="380" width="45" height="420" fill="#2C3E50"/>
+    <rect x="760" y="420" width="65" height="380" fill="#34495E"/>
+    <rect x="850" y="350" width="55" height="450" fill="#2C3E50"/>
+    <rect x="1000" y="380" width="60" height="420" fill="#34495E"/>
+    <rect x="1080" y="320" width="70" height="480" fill="#2C3E50"/>
+    <rect x="1240" y="400" width="55" height="400" fill="#34495E"/>
+    <rect x="1320" y="450" width="60" height="350" fill="#2C3E50"/>
+    <rect x="1480" y="420" width="50" height="380" fill="#34495E"/>
+    <rect x="1550" y="380" width="65" height="420" fill="#2C3E50"/>
+  </g>
+  
+  <!-- Floor -->
+  <rect x="0" y="900" width="1920" height="180" fill="url(#floorGrad)"/>
+  
+  <!-- Desk corner -->
+  <ellipse cx="1650" cy="950" rx="250" ry="40" fill="#8B4513" opacity="0.8"/>
+  <rect x="1400" y="950" width="520" height="130" fill="#6B3410" opacity="0.7"/>
+  
+  <!-- Plant -->
+  <ellipse cx="1750" cy="850" rx="80" ry="100" fill="#2E7D32" opacity="0.7"/>
+  <rect x="1730" y="900" width="40" height="80" fill="#5D4037"/>
+  
+  <!-- Lighting effect -->
+  <rect x="0" y="0" width="1920" height="1080" fill="url(#skyGrad)" opacity="0.1"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="80" fill="#34495E" opacity="0.15" text-anchor="middle" font-weight="bold">PROFESSIONAL OFFICE</text>
+</svg>

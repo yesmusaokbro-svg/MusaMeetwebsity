@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="classicWall" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5D4037;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3E2723;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="woodTexture" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#6D4C41"/>
+      <line x1="0" y1="0" x2="40" y2="40" stroke="#5D4037" stroke-width="1" opacity="0.3"/>
+    </pattern>
+  </defs>
+  
+  <!-- Wall -->
+  <rect width="1920" height="1080" fill="url(#classicWall)"/>
+  
+  <!-- Large bookshelf -->
+  <rect x="50" y="50" width="1820" height="950" fill="url(#woodTexture)"/>
+  
+  <!-- Horizontal shelves -->
+  <rect x="50" y="250" width="1820" height="20" fill="#4E342E"/>
+  <rect x="50" y="450" width="1820" height="20" fill="#4E342E"/>
+  <rect x="50" y="650" width="1820" height="20" fill="#4E342E"/>
+  <rect x="50" y="850" width="1820" height="20" fill="#4E342E"/>
+  
+  <!-- Vertical dividers -->
+  <rect x="450" y="50" width="20" height="950" fill="#4E342E"/>
+  <rect x="850" y="50" width="20" height="950" fill="#4E342E"/>
+  <rect x="1250" y="50" width="20" height="950" fill="#4E342E"/>
+  <rect x="1650" y="50" width="20" height="950" fill="#4E342E"/>
+  
+  <!-- Books on shelves -->
+  <g opacity="0.9">
+    <!-- Top shelf -->
+    <rect x="80" y="80" width="30" height="160" fill="#B71C1C"/>
+    <rect x="120" y="80" width="25" height="160" fill="#0D47A1"/>
+    <rect x="155" y="80" width="35" height="160" fill="#1B5E20"/>
+    <rect x="200" y="80" width="28" height="160" fill="#E65100"/>
+    <rect x="238" y="80" width="32" height="160" fill="#4A148C"/>
+    <rect x="280" y="80" width="30" height="160" fill="#006064"/>
+    <rect x="320" y="80" width="25" height="160" fill="#BF360C"/>
+    <rect x="355" y="80" width="35" height="160" fill="#33691E"/>
+    
+    <!-- More books across -->
+    <rect x="500" y="80" width="30" height="160" fill="#880E4F"/>
+    <rect x="540" y="80" width="28" height="160" fill="#1A237E"/>
+    <rect x="578" y="80" width="32" height="160" fill="#004D40"/>
+    
+    <rect x="900" y="80" width="30" height="160" fill="#C62828"/>
+    <rect x="940" y="80" width="25" height="160" fill="#1565C0"/>
+    <rect x="975" y="80" width="35" height="160" fill="#2E7D32"/>
+  </g>
+  
+  <!-- Ladder suggestion -->
+  <rect x="1500" y="200" width="30" height="700" fill="#8D6E63" opacity="0.6"/>
+  <rect x="1650" y="200" width="30" height="700" fill="#8D6E63" opacity="0.6"/>
+  <rect x="1500" y="350" width="180" height="15" fill="#8D6E63" opacity="0.6"/>
+  <rect x="1500" y="550" width="180" height="15" fill="#8D6E63" opacity="0.6"/>
+  <rect x="1500" y="750" width="180" height="15" fill="#8D6E63" opacity="0.6"/>
+  
+  <!-- Warm lamp glow -->
+  <circle cx="300" cy="150" r="60" fill="#FFC107" opacity="0.3"/>
+  
+  <text x="960" y="970" font-family="Georgia, serif" font-size="60" fill="#8D6E63" opacity="0.25" text-anchor="middle" font-style="italic">Classic Library</text>
+</svg>

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="livingWall" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ECEFF1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#CFD8DC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Wall -->
+  <rect width="1920" height="1080" fill="url(#livingWall)"/>
+  
+  <!-- Floor -->
+  <rect y="850" width="1920" height="230" fill="#8D6E63"/>
+  
+  <!-- Couch -->
+  <ellipse cx="960" cy="850" rx="600" ry="80" fill="#546E7A"/>
+  <rect x="360" y="850" width="1200" height="150" fill="#607D8B"/>
+  <rect x="360" y="700" width="1200" height="150" fill="#78909C"/>
+  
+  <!-- Pillows -->
+  <rect x="500" y="720" width="120" height="120" rx="20" fill="#E0E0E0"/>
+  <rect x="1300" y="720" width="120" height="120" rx="20" fill="#BDBDBD"/>
+  
+  <!-- Coffee table -->
+  <rect x="700" y="980" width="520" height="20" fill="#6D4C41"/>
+  <rect x="750" y="1000" width="420" height="80" fill="#8D6E63"/>
+  
+  <!-- Wall art -->
+  <rect x="700" y="200" width="520" height="350" fill="#FF6F00" opacity="0.3"/>
+  <rect x="750" y="250" width="420" height="250" fill="#FFA726" opacity="0.5"/>
+  
+  <!-- Plant -->
+  <ellipse cx="1700" cy="700" rx="80" ry="120" fill="#388E3C" opacity="0.7"/>
+  <rect x="1680" y="800" width="40" height="50" fill="#6D4C41"/>
+  
+  <!-- Lamp -->
+  <rect x="300" y="650" width="20" height="200" fill="#424242"/>
+  <polygon points="220,650 380,650 330,550" fill="#FDD835" opacity="0.6"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="60" fill="#90A4AE" opacity="0.25" text-anchor="middle" font-weight="bold">MODERN LIVING ROOM</text>
+</svg>

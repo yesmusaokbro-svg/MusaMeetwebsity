@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="forestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0E0E6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky -->
+  <rect width="1920" height="600" fill="url(#forestSky)"/>
+  
+  <!-- Sun rays -->
+  <circle cx="1600" cy="200" r="80" fill="#FFD700" opacity="0.8"/>
+  <line x1="1600" y1="200" x2="1400" y2="400" stroke="#FFD700" stroke-width="3" opacity="0.4"/>
+  <line x1="1600" y1="200" x2="1500" y2="500" stroke="#FFD700" stroke-width="3" opacity="0.4"/>
+  <line x1="1600" y1="200" x2="1600" y2="600" stroke="#FFD700" stroke-width="3" opacity="0.4"/>
+  
+  <!-- Ground -->
+  <rect y="600" width="1920" height="480" fill="#2E7D32"/>
+  <ellipse cx="960" cy="600" rx="960" ry="100" fill="#1B5E20"/>
+  
+  <!-- Trees -->
+  <g>
+    <!-- Tree 1 -->
+    <rect x="200" y="300" width="60" height="300" fill="#3E2723"/>
+    <ellipse cx="230" cy="250" rx="120" ry="150" fill="#1B5E20"/>
+    
+    <!-- Tree 2 -->
+    <rect x="500" y="350" width="70" height="250" fill="#3E2723"/>
+    <ellipse cx="535" cy="300" rx="130" ry="140" fill="#2E7D32"/>
+    
+    <!-- Tree 3 (foreground) -->
+    <rect x="1500" y="250" width="80" height="350" fill="#3E2723"/>
+    <ellipse cx="1540" cy="200" rx="150" ry="180" fill="#1B5E20"/>
+    
+    <!-- Tree 4 -->
+    <rect x="1200" y="320" width="65" height="280" fill="#3E2723"/>
+    <ellipse cx="1232" cy="270" rx="125" ry="150" fill="#2E7D32"/>
+    
+    <!-- Tree 5 (background) -->
+    <rect x="800" y="400" width="50" height="200" fill="#3E2723" opacity="0.7"/>
+    <ellipse cx="825" cy="370" rx="100" ry="120" fill="#388E3C" opacity="0.7"/>
+  </g>
+  
+  <!-- Path -->
+  <path d="M 800 600 Q 900 750 960 900 Q 1020 750 1120 600" fill="none" stroke="#6D4C41" stroke-width="150" opacity="0.6"/>
+  
+  <!-- Grass details -->
+  <rect x="0" y="900" width="1920" height="180" fill="#2E7D32"/>
+  <line x1="100" y1="900" x2="150" y2="1000" stroke="#1B5E20" stroke-width="3" opacity="0.5"/>
+  <line x1="300" y1="900" x2="350" y2="1000" stroke="#1B5E20" stroke-width="3" opacity="0.5"/>
+  <line x1="600" y1="900" x2="650" y2="1000" stroke="#1B5E20" stroke-width="3" opacity="0.5"/>
+  
+  <text x="960" y="1000" font-family="Arial, sans-serif" font-size="70" fill="#1B5E20" opacity="0.2" text-anchor="middle" font-weight="bold">FOREST PATH</text>
+</svg>
