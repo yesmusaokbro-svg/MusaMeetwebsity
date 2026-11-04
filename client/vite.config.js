@@ -7,5 +7,16 @@ export default defineConfig({
   server: {
     host: true, // Allow external access
     port: 5174
-  }
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
+  },
+  base: '/'
 })
