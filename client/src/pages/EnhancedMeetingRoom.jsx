@@ -4,7 +4,9 @@ import BackgroundSelector from '../components/meeting/BackgroundSelector';
 import ChatPanel from '../components/meeting/ChatPanel';
 import ParticipantsPanel from '../components/meeting/ParticipantsPanel';
 import HostControlsPanel from '../components/meeting/HostControlsPanel';
+import WelcomeModal from '../components/meeting/WelcomeModal';
 import videoEffectsService from '../services/videoEffectsService';
+import { determineHostStatus, getUserName, getMeetingLink, hasPermission } from '../utils/meetingUtils';
 import './MeetingRoom.css';
 
 function EnhancedMeetingRoom() {
@@ -41,59 +43,48 @@ function EnhancedMeetingRoom() {
   
   // Participants
   const [isParticipantsOpen, setIsParticipantsOpen] = useState(false);
-  const [participants, setParticipants] = useState([
-    {
-      id: 'host',
-      name: 'Host (You)',
-      isHost: true,
-      audioEnabled: true,
-      videoEnabled: true,
-      isHandRaised: false,
-      status: 'Active',
-      color: '#1a73e8'
-    },
-    {
-      id: 'p1',
-      name: 'Participant 1',
-      isHost: false,
-      audioEnabled: true,
-      videoEnabled: true,
-      isHandRaised: false,
-      status: 'Active',
-      color: '#34a853'
-    },
-    {
-      id: 'p2',
-      name: 'Participant 2',
-      isHost: false,
-      audioEnabled: false,
-      videoEnabled: true,
-      isHandRaised: true,
-      status: 'Active',
-      color: '#fbbc04'
-    },
-    {
-      id: 'p3',
-      name: 'Participant 3',
-      isHost: false,
-      audioEnabled: true,
-      videoEnabled: false,
-      isHandRaised: false,
-      status: 'Active',
-      color: '#ea4335'
-    }
-  ]);
+  
+  // User info and permissions
+  const [isHost, setIsHost] = useState(false);
+  const [userId, setUserId] = useState('');
+  const [userName, setUserName] = useState('');
+  
+  const [participants, setParticipants] = useState([]);
   
   // Host controls
   const [isHostControlsOpen, setIsHostControlsOpen] = useState(false);
-  const [isHost, setIsHost] = useState(true); // In real app, determine from auth/meeting data
   
   // Recording
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [recordingSupported, setRecordingSupported] = useState(true);
+  
+  // Welcome modal
+  const [showWelcome, setShowWelcome] = useState(false);
 
   useEffect(() => {
+    // Determine if user is host (first to join)
+    const { isHost: userIsHost, userId: userIdValue } = determineHostStatus(meetingId);
+    const userNameValue = getUserName();
+    
+    setIsHost(userIsHost);
+    setUserId(userIdValue);
+    setUserName(userNameValue);
+    
+    // Initialize participants list
+    setParticipants([
+      {
+        id: userIdValue,
+        name: userIsHost ? `${userNameValue} (Host)` : userNameValue,
+        isHost: userIsHost,
+        audioEnabled: true,
+        videoEnabled: true,
+        isHandRaised: false,
+        status: 'Active',
+        color: '#1a73e8'
+      }
+    ]);
+    
     // Check MediaRecorder support
     if (!window.MediaRecorder) {
       setRecordingSupported(false);
@@ -102,6 +93,11 @@ function EnhancedMeetingRoom() {
     
     requestMediaAccess();
     enumerateDevices();
+    
+    // Show welcome modal after a short delay
+    setTimeout(() => {
+      setShowWelcome(true);
+    }, 1000);
     
     // Background selector will NOT auto-open
     // User must manually click the background button to change it
@@ -307,6 +303,12 @@ function EnhancedMeetingRoom() {
   };
 
   const startRecording = () => {
+    // Check permission
+    if (!hasPermission(isHost, 'canRecord')) {
+      alert('Only the host can record the meeting.');
+      return;
+    }
+    
     if (!recordingSupported) {
       alert('Recording is not supported in this browser. Please use Chrome, Firefox, or Edge.');
       return;
@@ -369,6 +371,12 @@ function EnhancedMeetingRoom() {
   };
 
   const handleScreenShare = async () => {
+    // Check permission
+    if (!hasPermission(isHost, 'canScreenShare')) {
+      alert('Only the host can share their screen.\n\nParticipants can use: microphone, camera, chat, and virtual backgrounds.');
+      return;
+    }
+    
     if (isScreenSharing) {
       // Stop screen sharing
       try {
@@ -871,8 +879,18 @@ function EnhancedMeetingRoom() {
         onClose={() => setIsHostControlsOpen(false)}
         participants={participants}
         isHost={isHost}
-        currentUser="Host (You)"
+        currentUser={userName}
       />
+
+      {/* Welcome Modal - Shows role and permissions */}
+      {showWelcome && (
+        <WelcomeModal
+          isHost={isHost}
+          userName={userName}
+          meetingId={meetingId}
+          onClose={() => setShowWelcome(false)}
+        />
+      )}
     </div>
   );
 }
