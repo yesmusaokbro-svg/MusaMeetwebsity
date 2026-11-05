@@ -17,10 +17,11 @@
   border-radius: 16px;
   max-width: 600px;
   width: 90%;
-  max-height: 90vh;
+  max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   animation: slideUp 0.3s ease-out;
+  position: relative;
 }
 
 @keyframes slideUp {
@@ -47,18 +48,20 @@
 }
 
 .welcome-content {
-  padding: 24px;
+  padding: 20px 24px;
   color: white;
+  max-height: calc(85vh - 160px);
+  overflow-y: auto;
 }
 
 .user-role {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .role-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 48px;
+  margin-bottom: 12px;
 }
 
 .user-role h3 {
@@ -75,9 +78,9 @@
 
 .user-info {
   background: rgba(255, 255, 255, 0.1);
-  padding: 16px;
+  padding: 12px 16px;
   border-radius: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .user-info p {
@@ -87,8 +90,8 @@
 }
 
 .permissions-section h4 {
-  margin: 0 0 16px 0;
-  font-size: 16px;
+  margin: 0 0 12px 0;
+  font-size: 15px;
   font-weight: 600;
   color: white;
 }
@@ -96,17 +99,17 @@
 .permissions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 
 .permission-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
+  gap: 6px;
+  padding: 8px 10px;
   background: rgba(255, 255, 255, 0.15);
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 13px;
   color: white;
 }
 
@@ -121,8 +124,8 @@
 }
 
 .host-actions {
-  margin-top: 24px;
-  padding-top: 24px;
+  margin-top: 16px;
+  padding-top: 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -164,8 +167,12 @@
 }
 
 .welcome-footer {
-  padding: 24px;
+  padding: 20px 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: sticky;
+  bottom: 0;
+  border-radius: 0 0 16px 16px;
 }
 
 .btn-continue {
