@@ -694,10 +694,6 @@ function EnhancedMeetingRoom() {
             </div>
           )}
         </div>
-
-        <div className="participants-info">
-          <p>Waiting for other participants to join...</p>
-        </div>
       </div>
 
       <div className="meeting-controls">
