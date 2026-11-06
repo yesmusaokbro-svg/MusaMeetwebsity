@@ -5,8 +5,13 @@ import ChatPanel from '../components/meeting/ChatPanel';
 import ParticipantsPanel from '../components/meeting/ParticipantsPanel';
 import HostControlsPanel from '../components/meeting/HostControlsPanel';
 import WelcomeModal from '../components/meeting/WelcomeModal';
+import WaitingRoomNotification from '../components/meeting/WaitingRoomNotification';
+import WaitingForApproval from '../components/meeting/WaitingForApproval';
+import RemoteParticipantVideo from '../components/meeting/RemoteParticipantVideo';
 import videoEffectsService from '../services/videoEffectsService';
+import webrtcService from '../services/webrtcService';
 import { determineHostStatus, getUserName, getMeetingLink, hasPermission } from '../utils/meetingUtils';
+import { playNotificationSound, playSuccessSound } from '../utils/notificationSound';
 import './MeetingRoom.css';
 
 function EnhancedMeetingRoom() {
@@ -62,36 +67,267 @@ function EnhancedMeetingRoom() {
   // Welcome modal
   const [showWelcome, setShowWelcome] = useState(false);
 
+  // Waiting room states
+  const [isWaitingForApproval, setIsWaitingForApproval] = useState(false);
+  const [joinRequests, setJoinRequests] = useState([]);
+  const [canJoinMeeting, setCanJoinMeeting] = useState(false);
+  const [isCheckingApproval, setIsCheckingApproval] = useState(true);
+
+  // Hand raise queue tracking
+  const [handRaiseQueue, setHandRaiseQueue] = useState([]);
+
   useEffect(() => {
-    // Determine if user is host (first to join)
+    // Connect to WebRTC service
+    webrtcService.connect();
+
+    // Determine user info
     const { isHost: userIsHost, userId: userIdValue } = determineHostStatus(meetingId);
     const userNameValue = getUserName();
     
-    setIsHost(userIsHost);
     setUserId(userIdValue);
     setUserName(userNameValue);
     
-    // Initialize participants list
-    setParticipants([
-      {
+    // Request camera/mic access IMMEDIATELY (like Google Meet)
+    // This happens BEFORE checking approval
+    const initMediaEarly = async () => {
+      await requestMediaAccess();
+      console.log('Camera initialized early');
+    };
+    initMediaEarly();
+    
+    console.log('Requesting to join meeting:', { meetingId, userIdValue, userNameValue });
+    
+    // Request to join meeting (will check if host exists)
+    webrtcService.requestJoinMeeting(meetingId, userIdValue, userNameValue);
+
+    // Safety timeout - if no response after 5 seconds, assume we're host
+    const safetyTimeout = setTimeout(() => {
+      if (isCheckingApproval) {
+        console.log('No response after 5s, assuming host role');
+        setIsCheckingApproval(false);
+        setCanJoinMeeting(true);
+        setIsHost(true);
+        setParticipants([
+          {
+            id: userIdValue,
+            name: `${userNameValue} (Host)`,
+            isHost: true,
+            audioEnabled: true,
+            videoEnabled: true,
+            isHandRaised: false,
+            status: 'Active',
+            color: '#1a73e8'
+          }
+        ]);
+        webrtcService.joinMeeting(meetingId, userIdValue, userNameValue, true);
+      }
+    }, 5000);
+
+    // Setup WebRTC event listeners
+    const handleJoinRequest = (data) => {
+      console.log('New join request:', data);
+      setJoinRequests(prev => [...prev, data]);
+      
+      // Play notification sound for host
+      playNotificationSound();
+      
+      // Show browser notification if permitted
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('New Join Request', {
+          body: `${data.userName} wants to join the meeting`,
+          icon: '/favicon.svg'
+        });
+      }
+    };
+
+    const handleWaitingForApproval = (data) => {
+      console.log('Waiting for host approval');
+      setIsWaitingForApproval(true);
+      setIsCheckingApproval(false);
+    };
+
+    const handleJoinApproved = (data) => {
+      console.log('Join approved, isHost:', data.isHost);
+      setIsWaitingForApproval(false);
+      setIsCheckingApproval(false);
+      setCanJoinMeeting(true);
+      setIsHost(data.isHost);
+      
+      // Play success sound
+      if (!data.isHost) {
+        playSuccessSound();
+      }
+      
+      // Don't initialize participants here - let existing-participants handle it
+      console.log('Waiting for existing-participants event...');
+
+      // Actually join the meeting
+      webrtcService.joinMeeting(meetingId, userIdValue, userNameValue, data.isHost);
+    };
+
+    const handleJoinRejected = (data) => {
+      alert(data.reason || 'Host denied your request to join');
+      navigate('/');
+    };
+
+    const handleUserJoined = (data) => {
+      console.log('👤 User joined:', data);
+      setParticipants(prev => {
+        // Check if participant already exists
+        const exists = prev.find(p => p.socketId === data.socketId || p.id === data.userId);
+        if (exists) {
+          console.log('Participant already exists, skipping');
+          return prev;
+        }
+        
+        console.log('Adding new participant with socketId:', data.socketId);
+        return [...prev, {
+          id: data.userId,
+          socketId: data.socketId,
+          name: data.isHost ? `${data.userName} (Host)` : data.userName,
+          isHost: data.isHost,
+          audioEnabled: true,
+          videoEnabled: true,
+          isHandRaised: false,
+          status: 'Active',
+          stream: null, // Will be set when remote stream arrives
+          color: '#' + Math.floor(Math.random()*16777215).toString(16)
+        }];
+      });
+    };
+
+    const handleExistingParticipants = (existingParticipants) => {
+      console.log('📋 Existing participants received:', existingParticipants);
+      
+      // Add yourself first
+      const selfParticipant = {
         id: userIdValue,
-        name: userIsHost ? `${userNameValue} (Host)` : userNameValue,
-        isHost: userIsHost,
+        socketId: null,
+        name: isHost ? `${userNameValue} (Host)` : userNameValue,
+        isHost: isHost,
         audioEnabled: true,
         videoEnabled: true,
         isHandRaised: false,
         status: 'Active',
+        stream: null,
         color: '#1a73e8'
+      };
+      
+      // Then add all existing participants
+      const allParticipants = [selfParticipant];
+      
+      existingParticipants.forEach(p => {
+        allParticipants.push({
+          id: p.userId,
+          socketId: p.socketId,
+          name: p.isHost ? `${p.userName} (Host)` : p.userName,
+          isHost: p.isHost,
+          audioEnabled: p.audioEnabled !== undefined ? p.audioEnabled : true,
+          videoEnabled: p.videoEnabled !== undefined ? p.videoEnabled : true,
+          isHandRaised: p.isHandRaised || false,
+          status: 'Active',
+          stream: null,
+          color: '#' + Math.floor(Math.random()*16777215).toString(16)
+        });
+      });
+      
+      console.log('Setting participants:', allParticipants);
+      setParticipants(allParticipants);
+    };
+
+    const handleUserLeft = (data) => {
+      console.log('User left:', data);
+      setParticipants(prev => prev.filter(p => p.id !== data.userId));
+    };
+
+    // Handle remote streams
+    const handleRemoteStream = ({ socketId, stream }) => {
+      console.log('🎥 Received remote stream from socketId:', socketId, 'Stream tracks:', stream.getTracks().length);
+      
+      // Update participant with stream
+      setParticipants(prev => {
+        const updated = prev.map(p => {
+          if (p.socketId === socketId) {
+            console.log('✅ Matched stream to participant:', p.name);
+            return { ...p, stream };
+          }
+          return p;
+        });
+        
+        // Debug: show all participants
+        console.log('Current participants:', updated.map(p => ({ name: p.name, socketId: p.socketId, hasStream: !!p.stream })));
+        return updated;
+      });
+    };
+
+    // Handle hand raise updates
+    const handleHandRaised = (data) => {
+      console.log('🖐️ Hand raised event received:', data);
+      
+      setParticipants(prev => prev.map(p => {
+        if (p.socketId === data.socketId || p.id === data.userId) {
+          console.log('✅ Updating hand state for:', p.name, 'raised:', data.raised);
+          return { ...p, isHandRaised: data.raised, handRaiseNumber: data.queueNumber };
+        }
+        return p;
+      }));
+      
+      // Update hand raise queue
+      if (data.raised && data.queueNumber) {
+        setHandRaiseQueue(prev => {
+          const exists = prev.find(item => item.userId === data.userId);
+          if (!exists) {
+            return [...prev, { 
+              userId: data.userId, 
+              userName: data.userName, 
+              queueNumber: data.queueNumber,
+              timestamp: Date.now()
+            }].sort((a, b) => a.queueNumber - b.queueNumber);
+          }
+          return prev;
+        });
+      } else {
+        setHandRaiseQueue(prev => prev.filter(item => item.userId !== data.userId));
       }
-    ]);
+    };
+
+    webrtcService.on('join-request', handleJoinRequest);
+    webrtcService.on('waiting-for-approval', handleWaitingForApproval);
+    webrtcService.on('join-approved', handleJoinApproved);
+    webrtcService.on('join-rejected', handleJoinRejected);
+    webrtcService.on('existing-participants', handleExistingParticipants);
+    webrtcService.on('user-joined', handleUserJoined);
+    webrtcService.on('user-left', handleUserLeft);
+    webrtcService.on('remote-stream', handleRemoteStream);
+    webrtcService.on('hand-raised', handleHandRaised);
     
     // Check MediaRecorder support
     if (!window.MediaRecorder) {
       setRecordingSupported(false);
       console.warn('MediaRecorder API not supported in this browser');
     }
+
+    return () => {
+      clearTimeout(safetyTimeout);
+      webrtcService.off('join-request', handleJoinRequest);
+      webrtcService.off('waiting-for-approval', handleWaitingForApproval);
+      webrtcService.off('join-approved', handleJoinApproved);
+      webrtcService.off('join-rejected', handleJoinRejected);
+      webrtcService.off('existing-participants', handleExistingParticipants);
+      webrtcService.off('user-joined', handleUserJoined);
+      webrtcService.off('user-left', handleUserLeft);
+      webrtcService.off('remote-stream', handleRemoteStream);
+      webrtcService.off('hand-raised', handleHandRaised);
+      webrtcService.disconnect();
+    };
+  }, [meetingId, navigate]);
+
+  // Request media access only after joining is approved - REMOVED
+  // Now camera starts immediately when page loads (like Google Meet)
+  useEffect(() => {
+    if (!canJoinMeeting) return;
     
-    requestMediaAccess();
+    // Just enumerate devices since camera is already started
     enumerateDevices();
     
     // Show welcome modal after a short delay
@@ -99,10 +335,6 @@ function EnhancedMeetingRoom() {
       setShowWelcome(true);
     }, 1000);
     
-    // Background selector will NOT auto-open
-    // User must manually click the background button to change it
-    // Default: Original camera view (no virtual background)
-
     return () => {
       // Cleanup: stop all tracks when component unmounts
       if (localStream) {
@@ -112,7 +344,7 @@ function EnhancedMeetingRoom() {
         stopRecording();
       }
     };
-  }, []);
+  }, [canJoinMeeting]); // Only run when canJoinMeeting changes
 
   // Recording timer
   useEffect(() => {
@@ -163,6 +395,10 @@ function EnhancedMeetingRoom() {
       setLocalStream(stream);
       setPermissionStatus('granted');
       setError(null);
+
+      // Share stream with WebRTC service for peer connections
+      webrtcService.setLocalStream(stream);
+      console.log('Local stream set in WebRTC service');
 
       // Attach stream to video element
       if (videoRef.current) {
@@ -243,9 +479,13 @@ function EnhancedMeetingRoom() {
   };
 
   const handleRaiseHand = () => {
-    setIsHandRaised(!isHandRaised);
-    console.log(`Hand ${!isHandRaised ? 'raised' : 'lowered'}`);
-    // In a real implementation, this would broadcast to all participants
+    const newHandState = !isHandRaised;
+    setIsHandRaised(newHandState);
+    
+    console.log(`🖐️ ${newHandState ? 'Raising' : 'Lowering'} hand - broadcasting to server`);
+    
+    // Notify server about hand raise/lower (server will assign queue number)
+    webrtcService.raiseHand(meetingId, newHandState);
   };
 
   const handleToggleChat = () => {
@@ -530,7 +770,25 @@ function EnhancedMeetingRoom() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Handle approve participant
+  const handleApproveParticipant = (socketId) => {
+    webrtcService.approveParticipant(meetingId, socketId);
+    setJoinRequests(prev => prev.filter(req => req.socketId !== socketId));
+    
+    // Play success sound when admitting someone
+    playSuccessSound();
+  };
 
+  // Handle reject participant
+  const handleRejectParticipant = (socketId) => {
+    webrtcService.rejectParticipant(meetingId, socketId, 'Host denied your request to join');
+    setJoinRequests(prev => prev.filter(req => req.socketId !== socketId));
+  };
+
+  // Handle cancel waiting
+  const handleCancelWaiting = () => {
+    navigate('/');
+  };
 
   const handleCopyMeetingLink = () => {
     const meetingLink = window.location.href;
@@ -541,8 +799,94 @@ function EnhancedMeetingRoom() {
     });
   };
 
+  // Show loading while checking approval
+  if (isCheckingApproval) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        fontSize: '24px',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ 
+            width: '50px', 
+            height: '50px', 
+            border: '4px solid rgba(255,255,255,0.3)',
+            borderTop: '4px solid white',
+            borderRadius: '50%',
+            margin: '0 auto 20px',
+            animation: 'spin 1s linear infinite'
+          }}></div>
+          Connecting to meeting...
+          <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); }}`}</style>
+        </div>
+      </div>
+    );
+  }
+
+  // Show waiting screen if waiting for approval (but keep camera preview visible)
+  if (isWaitingForApproval && permissionStatus === 'granted') {
+    return (
+      <div className="meeting-room">
+        {/* Show camera preview even while waiting */}
+        <div className="waiting-with-preview">
+          <div className="preview-container">
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="preview-video"
+            />
+            <div className="preview-label">Your Camera</div>
+          </div>
+          
+          <div className="waiting-message-overlay">
+            <div className="waiting-spinner-small"></div>
+            <h3>Waiting for host to let you in...</h3>
+            <p>You can see yourself, but you're not in the meeting yet</p>
+            <button 
+              className="leave-waiting-btn" 
+              onClick={handleCancelWaiting}
+            >
+              Leave
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  if (isWaitingForApproval) {
+    return (
+      <WaitingForApproval 
+        hostName="Meeting Host" 
+        onCancel={handleCancelWaiting}
+      />
+    );
+  }
+
+  // Don't render meeting room until approved
+  if (!canJoinMeeting) {
+    return null; // Return nothing while checking approval status
+  }
+
   return (
     <div className="meeting-room">
+      {/* Waiting Room Notifications for Host */}
+      {isHost && joinRequests.length > 0 && (
+        <WaitingRoomNotification 
+          requests={joinRequests}
+          onApprove={handleApproveParticipant}
+          onReject={handleRejectParticipant}
+        />
+      )}
+
       <div className="meeting-header">
         <div className="meeting-info">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -618,7 +962,7 @@ function EnhancedMeetingRoom() {
                 You
                 {isHandRaised && (
                   <span className="hand-indicator" title="Hand raised">
-                    ✋
+                    ✋{participants.find(p => p.id === userId)?.handRaiseNumber ? ` ${participants.find(p => p.id === userId)?.handRaiseNumber}` : ''}
                   </span>
                 )}
                 {isScreenSharing && (
@@ -693,6 +1037,17 @@ function EnhancedMeetingRoom() {
               </div>
             </div>
           )}
+
+          {/* Remote Participants */}
+          {permissionStatus === 'granted' && participants.filter(p => p.id !== userId).map(participant => {
+            console.log('Rendering participant:', participant.name, 'has stream:', !!participant.stream);
+            return (
+              <RemoteParticipantVideo 
+                key={participant.socketId || participant.id} 
+                participant={participant} 
+              />
+            );
+          })}
         </div>
       </div>
 

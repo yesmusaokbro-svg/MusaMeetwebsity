@@ -26,6 +26,9 @@ function SimpleTest() {
         <p style={{ fontSize: '18px', color: '#555', marginTop: '10px' }}>
           Or go directly to: <a href="/meeting/test123" style={{ color: '#AA3BFF', fontWeight: 'bold' }}>/meeting/test123</a>
         </p>
+        <p style={{ fontSize: '18px', color: '#555', marginTop: '10px' }}>
+          🚪 <strong>NEW!</strong> Try Waiting Room: <a href="/waiting-demo" style={{ color: '#10b981', fontWeight: 'bold' }}>/waiting-demo</a>
+        </p>
       </div>
     </div>
   );
